@@ -6,10 +6,11 @@ function printData(value:Function){
 }
 
 @printData
-@Controller("/todo")
+@Controller("todo")
 export class TodoController{
-    @Get()
-    getTodo():string{
+    @Get("/:id")
+    getTodo(@Req() req:Request ):string{
+        console.log(req)
         return "Todo"
     }
 }
