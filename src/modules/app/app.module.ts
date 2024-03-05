@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
-import {PublicModule} from '../public/public.module'
 
+// Config & Project Module
+import {PublicModule} from '../public/public.module'
 import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [PublicModule,ConfigModule.forRoot({envFilePath:'.env'})],
+  imports: [PublicModule,
+    ConfigModule.forRoot({envFilePath:'.env'}),
+    MongooseModule.forRoot("mongodb://localhost:27017/nest-todo")],
 })
 export class AppModule {}
