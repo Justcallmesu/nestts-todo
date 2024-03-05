@@ -1,4 +1,4 @@
-import { Controller,Req,Get,Post } from "@nestjs/common";
+import { Controller,Req,Param,Get,Post } from "@nestjs/common";
 import { Request } from "express";
 
 function printData(value:Function){
@@ -9,8 +9,9 @@ function printData(value:Function){
 @Controller("todo")
 export class TodoController{
     @Get("/:id")
-    getTodo(@Req() req:Request ):string{
-        console.log(req)
+    getTodo(@Param() params:any):string{
+
+        console.log(params)
         return "Todo"
     }
 }

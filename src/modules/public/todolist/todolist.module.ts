@@ -1,4 +1,11 @@
+// NestJS Components
 import { Module } from "@nestjs/common";
 
-@Module({})
+// Controller
+import {TodoController} from "./todolist.controller"
+
+
+@Module({
+    controllers:[TodoController]
+})
 export class TodolistModule{}
