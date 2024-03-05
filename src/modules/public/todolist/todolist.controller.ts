@@ -9,7 +9,6 @@ import {Params} from "../../Interface/params.interface"
 export class TodoController{
     @Get("/:id")
     getTodo(@Param() params:Params,@Res() res:Response):void{
-        console.log(process.env)
         
         res.json({status:200,message:"hello World"});
     }
