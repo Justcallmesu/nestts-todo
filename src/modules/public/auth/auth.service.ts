@@ -1,9 +1,10 @@
-import { HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
+import { Response } from "express";
 
 // Auth Schema
 import {Users} from "../../schemas/auth.schema"
-import { Document, Model } from "mongoose";
+import { Document, Model, MongooseError } from "mongoose";
 
 // Error
 import {ErrorException} from "../../error/RequestException"
@@ -15,14 +16,21 @@ import {RegisterDTO,LoginDTO} from "./auth.dto"
 export class AuthService{
     constructor(@InjectModel(Users.name) private AuthModel:Model<Users>){}
     
-    async Register(RegisterDTO:RegisterDTO):Promise<Boolean|undefined>{
+    async Register(RegisterDTO:RegisterDTO, res:Response):Promise<Boolean|undefined>{
         if(RegisterDTO.confirmPassword !== RegisterDTO.password){
             throw new ErrorException("Bad Request",HttpStatus.BAD_REQUEST,"Password Doesnt Match");
         }
 
-        const newUser = new this.AuthModel(RegisterDTO);
-        await newUser.save();
-        return true;
+        try{
+            const newUser = new this.AuthModel(RegisterDTO);
+            await newUser.save();
+        }catch(error){
+            if(error.code === 11000) throw new ErrorException("CONFLICT",HttpStatus.CONFLICT,"Username is already taken");
+        }
+
+        res.json()
+
+        return;
     }
 
     async Login(LoginDTO:LoginDTO):Promise<Document<Users> | null>{
