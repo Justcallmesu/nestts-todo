@@ -1,12 +1,18 @@
-import {IsString,IsNotEmpty, IsDate, MaxLength, Max} from "class-validator"
+import {IsString,IsNotEmpty, IsDate, MaxLength, Max, IsBoolean} from "class-validator"
 
-export class TodolistDTO{
+export class PostTodoDTO{
+    @IsNotEmpty()
+    @IsString()
+    @MaxLength(50)
+    title: string;
+}
+
+export class UpdateTodoDTo{
     @IsNotEmpty()
     @IsString()
     @MaxLength(50)
     title: string;
 
-    @IsNotEmpty()
-    @IsDate()
-    userID:Date;
+    @IsBoolean()
+    isCompleted:boolean;
 }
