@@ -57,7 +57,6 @@ export class AuthService{
     }
 
     async logout(res:Response):Promise<void>{
-
         res.cookie("AccessToken","").end();
     }
 }

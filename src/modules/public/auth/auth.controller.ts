@@ -1,4 +1,4 @@
-import {Controller,Res, Post,Body} from "@nestjs/common"
+import {Controller,Res, Post,Body, Get} from "@nestjs/common"
 import {Response} from "express"
 
 // Service
@@ -18,7 +18,7 @@ export class AuthController{
         await this.auth.Login(body,res)
     }
 
-    @Post("/logout")
+    @Get("/logout")
     async Logout(@Res() res:Response){
         await this.auth.logout(res)
     }
