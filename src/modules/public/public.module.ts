@@ -1,11 +1,16 @@
 // Nest JS Components
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 
 // Modules
 import {TodolistModule} from "./todolist/todolist.module"
 import {AuthModule} from "./auth/auth.module"
+import { CheckAccess } from "../middleware/Auth.Middleware";
 
 @Module({
     imports:[TodolistModule,AuthModule]
 })
-export class PublicModule{}
+export class PublicModule implements NestModule{
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(CheckAccess).forRoutes('todo');
+    }
+}
