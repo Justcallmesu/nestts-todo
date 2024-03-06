@@ -13,6 +13,9 @@ export class AuthService{
     constructor(@InjectModel(Users.name) private AuthModel:Model<Users>){}
     
     async Register(RegisterDTO:RegisterDTO):Promise<Boolean|undefined>{
+        if(RegisterDTO.confirmPassword !== RegisterDTO.password){
+        }
+
         const newUser = new this.AuthModel(RegisterDTO);
         await newUser.save();
         return true;
