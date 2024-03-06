@@ -7,10 +7,9 @@ import {Params} from "../../Interface/params.interface"
 
 @Controller("todo")
 export class TodoController{
-    @Get("/:id")
+    @Get()
     getTodo(@Param() params:Params,@Res() res:Response):void{
-
-        
+        console.log(res.locals.userID)
         res.json({status:200,message:"hello World"});
     }
 }
