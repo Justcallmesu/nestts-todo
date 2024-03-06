@@ -3,15 +3,27 @@ import {InjectModel} from "@nestjs/mongoose";
 
 // Auth Schema
 import {Users} from "../../schemas/auth.schema"
-import { Model } from "mongoose";
+import { Document, Model } from "mongoose";
 
 // DTO
-import {RegisterDTO} from "./auth.dto"
-
+import {RegisterDTO,LoginDTO} from "./auth.dto"
 
 @Injectable()
 export class AuthService{
     constructor(@InjectModel(Users.name) private AuthModel:Model<Users>){}
-    Register(RegisterDTO:RegisterDTO):void{
+    
+    async Register(RegisterDTO:RegisterDTO):Promise<Boolean|undefined>{
+        if(RegisterDTO.confirmPassword !== RegisterDTO.password){
+        }
+
+        const newUser = new this.AuthModel(RegisterDTO);
+        await newUser.save();
+        return true;
+    }
+
+    async Login(LoginDTO:LoginDTO):Promise<Document<Users> | null>{
+        console.log(LoginDTO)
+        const data:Document<any>|null = await this.AuthModel.findOne({username:LoginDTO.username});
+        return data;
     }
 }
