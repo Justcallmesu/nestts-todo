@@ -10,8 +10,7 @@ export class AuthController{
 
     @Post("/register")
     Register(@Body() body:any){
-        this.auth.Register(body)
-        return "This is Register"
+        return this.auth.Register(body)
     }
     @Post("/login")
     async Login(@Body() body:any,@Res() res:Response){
