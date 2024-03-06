@@ -3,14 +3,20 @@ import {InjectModel} from "@nestjs/mongoose";
 import { Response } from "express";
 
 // Auth Schema
-import {Users} from "../../schemas/auth.schema"
+import {UserSchema, Users} from "../../schemas/auth.schema"
 import { Document, Model, MongooseError } from "mongoose";
 
 // Error
 import {ErrorException} from "../../error/RequestException"
 
+// Response
+import { ResponseClass } from "src/modules/class/Response.class";
+
 // DTO
 import {RegisterDTO,LoginDTO} from "./auth.dto"
+
+// Functions
+import { JWTConstruct } from "src/modules/functions/JWTConstructor";
 
 @Injectable()
 export class AuthService{
@@ -21,21 +27,32 @@ export class AuthService{
             throw new ErrorException("Bad Request",HttpStatus.BAD_REQUEST,"Password Doesnt Match");
         }
 
+        let newUser;
+
         try{
-            const newUser = new this.AuthModel(RegisterDTO);
+            newUser = new this.AuthModel(RegisterDTO);
             await newUser.save();
         }catch(error){
             if(error.code === 11000) throw new ErrorException("CONFLICT",HttpStatus.CONFLICT,"Username is already taken");
         }
 
-        res.json()
+        res.cookie("AccessToken",JWTConstruct(newUser?.id));
 
+        res.json(new ResponseClass(201,"User Successfully Created"));
         return;
     }
 
-    async Login(LoginDTO:LoginDTO):Promise<Document<Users> | null>{
-        console.log(LoginDTO)
-        const data:Document<any>|null = await this.AuthModel.findOne({username:LoginDTO.username});
-        return data;
+    async Login(LoginDTO:LoginDTO, res:Response):Promise<undefined>{
+        const document:Document<Users>|null = await this.AuthModel.findOne({username:LoginDTO.username});
+        const data = document?.toObject()
+
+        if(!data) throw new ErrorException("Bad Request",HttpStatus.BAD_REQUEST,"Username or Password incorrect"); 
+        if(!await document?.schema.methods.ComparePassword(LoginDTO.password, data.password)) throw new ErrorException("Bad Request",HttpStatus.BAD_REQUEST,"Username or Password incorrect"); 
+
+        res.cookie("AccessToken",JWTConstruct(data?._id));
+
+        res.json(new ResponseClass(200,"Login Successfully"));
+
+        return;
     }
 }

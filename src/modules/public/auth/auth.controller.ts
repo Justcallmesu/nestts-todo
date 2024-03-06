@@ -14,7 +14,6 @@ export class AuthController{
     }
     @Post("/login")
     async Login(@Body() body:any,@Res() res:Response){
-        const data = await this.auth.Login(body)
-        res.json(data);
+        await this.auth.Login(body,res)
     }
 }
