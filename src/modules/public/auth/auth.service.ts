@@ -8,10 +8,11 @@ import { Model } from "mongoose";
 // DTO
 import {RegisterDTO} from "./auth.dto"
 
-
 @Injectable()
 export class AuthService{
     constructor(@InjectModel(Users.name) private AuthModel:Model<Users>){}
+    
     Register(RegisterDTO:RegisterDTO):void{
+        // console.log(RegisterDTO)
     }
 }
