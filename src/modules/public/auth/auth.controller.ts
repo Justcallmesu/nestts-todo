@@ -12,8 +12,14 @@ export class AuthController{
     Register(@Body() body:any, @Res() res:Response){
         return this.auth.Register(body,res)
     }
+    
     @Post("/login")
     async Login(@Body() body:any,@Res() res:Response){
         await this.auth.Login(body,res)
+    }
+
+    @Post("/logout")
+    async Logout(@Res() res:Response){
+        await this.auth.logout(res)
     }
 }
