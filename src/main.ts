@@ -2,12 +2,17 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app/app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
-import *  as dotenv from "dotenv"
+// Config
+import *  as dotenv from "dotenv";
+
+// Middleware
+import * as cookieParser from "cookie-parser";
 
 dotenv.config({path:"../.env"})
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.use(cookieParser())
   await app.listen(3000);
 }
 bootstrap();
