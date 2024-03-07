@@ -1,5 +1,5 @@
 // Nest JS Components
-import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from "@nestjs/common";
 
 // Modules
 import {TodolistModule} from "./todolist/todolist.module"
@@ -12,5 +12,6 @@ import { CheckAccess } from "../middleware/Auth.Middleware";
 export class PublicModule implements NestModule{
     configure(consumer: MiddlewareConsumer) {
         consumer.apply(CheckAccess).forRoutes('todo');
+        consumer.apply(CheckAccess).forRoutes({path:"auth/userinfo",method:RequestMethod.GET})
     }
 }
