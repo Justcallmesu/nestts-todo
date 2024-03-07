@@ -8,10 +8,10 @@ export type TodoListDocument = HydratedDocument<Todo>;
 
 @Schema()
 export class Todo{
-    @Prop({required:true, maxlength:[50,"Character exceeding the limit"],type:[String,"Data Type must a string"]})
+    @Prop({required:true, maxlength:[50,"Character exceeding the limit"]})
     title:string
 
-    @Prop({required:true,type:[mongoose.Schema.Types.ObjectId,"Data Type must an ObjectID"],ref:"Users"})
+    @Prop({required:true,type:mongoose.Schema.Types.ObjectId,ref:"Users"})
     userID:Users
 
     @Prop({required:true, default:new Date()})
