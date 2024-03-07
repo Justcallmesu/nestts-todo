@@ -38,7 +38,7 @@ export class AuthService{
             if(error.code === 11000) throw new ErrorException("CONFLICT",HttpStatus.CONFLICT,"Username is already taken");
         }
 
-        res.cookie("AccessToken",JWTConstruct(newUser?.id));
+        res.cookie("AccessToken",JWTConstruct(newUser?.id),{httpOnly:true});
 
         res.json(new ResponseClass(201,"User Successfully Created"));
         return;
@@ -51,7 +51,7 @@ export class AuthService{
         if(!data) throw new ErrorException("Bad Request",HttpStatus.BAD_REQUEST,"Username or Password incorrect"); 
         if(!await document?.schema.methods.ComparePassword(LoginDTO.password, data.password)) throw new ErrorException("Bad Request",HttpStatus.BAD_REQUEST,"Username or Password incorrect"); 
 
-        res.cookie("AccessToken",JWTConstruct(data?._id));
+        res.cookie("AccessToken",JWTConstruct(data?._id),{httpOnly:true,secure:true});
 
         res.json(new ResponseClass(200,"Login Successfully"));
 
