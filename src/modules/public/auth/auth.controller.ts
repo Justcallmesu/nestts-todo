@@ -1,5 +1,5 @@
-import {Controller,Res, Post,Body, Get} from "@nestjs/common"
-import {Response} from "express"
+import {Controller,Res, Post,Body, Get, Req} from "@nestjs/common"
+import {Request, Response} from "express"
 
 // Service
 import {AuthService} from "./auth.service"
@@ -9,8 +9,8 @@ export class AuthController{
     constructor(private auth:AuthService){}
 
     @Post("/register")
-    Register(@Body() body:any, @Res() res:Response){
-        return this.auth.Register(body,res)
+    async Register(@Body() body:any, @Res() res:Response){
+        await this.auth.Register(body,res)
     }
     
     @Post("/login")
@@ -22,4 +22,10 @@ export class AuthController{
     async Logout(@Res() res:Response){
         await this.auth.logout(res)
     }
+
+    @Get("/userinfo")
+    async GetUserInfo(@Req() req:Request,@Res() res:Response){
+        await this.auth.GetUserInfo(req,res)
+    }
+
 }

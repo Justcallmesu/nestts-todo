@@ -3,13 +3,8 @@ import { Request,Response,NextFunction } from "express";
 
 // Import
 import {ErrorException} from "../error/RequestException"
-import { JwtPayload, verify } from "jsonwebtoken";
-
-interface JWTverify{
-    UserId:string,
-    iat:number,
-    exp:number
-}
+import { verify } from "jsonwebtoken";
+import { JWTverify } from "../Interface/params.interface";
 
 @Injectable()
 export class CheckAccess implements NestMiddleware{
