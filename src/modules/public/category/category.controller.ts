@@ -3,6 +3,9 @@ import {} from "express"
 import { Params } from "src/modules/Interface/params.interface"
 
 
+// DTO
+import { CategoryDTO } from "./category.dto"
+
 @Controller("category")
 export class CategoryController{
     @Get()
@@ -11,12 +14,12 @@ export class CategoryController{
     }
 
     @Post()
-    async PostCategory(@Res() res:Response,@Body() body:any){
+    async PostCategory(@Res() res:Response,@Body() body:CategoryDTO){
 
     }
 
     @Put("/:id")
-    async UpdateCategory(@Res() res:Response,@Param() params:Params,@Body() body:any){
+    async UpdateCategory(@Res() res:Response,@Param() params:Params,@Body() body:CategoryDTO){
 
     }
 
