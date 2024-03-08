@@ -14,12 +14,6 @@ export class Categories{
 
     @Prop({required:true,type:Array<mongoose.Schema.Types.ObjectId>,ref:"Users"})
     userID:Array<Users>
-
-    @Prop({required:true, default:new Date()})
-    Categories:Date
-
-    @Prop({type:Array<Todo>})
-    todo:Array<Todo>
 };
 
 export const CategorySchema = SchemaFactory.createForClass(Categories);
