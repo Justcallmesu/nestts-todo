@@ -14,6 +14,7 @@ export class PublicModule implements NestModule{
     configure(consumer: MiddlewareConsumer) {
         consumer.apply(CheckAccess).forRoutes('todo');
         consumer.apply(CheckAccess).forRoutes({path:"auth/userinfo",method:RequestMethod.GET})
+        consumer.apply(CheckAccess).forRoutes({path:"auth/userinfo/*",method:RequestMethod.GET})
         consumer.apply(CheckAccess).forRoutes("category")
     }
 }
