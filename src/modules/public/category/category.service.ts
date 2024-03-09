@@ -11,23 +11,28 @@ import { Categories } from "src/modules/schemas/category.schema";
 
 // DTO
 import { CategoryDTO } from "./category.dto"
+import { ResponseClass } from "src/modules/class/Response.class";
 
 @Injectable()
 export class CategoryService{
     constructor(@InjectModel(Categories.name) private categoryModel:Model<Categories>){}
-    GetCategory(res:Response){
+    async GetCategory(res:Response){
+        const {userID} = res.locals;
+
+        const categories = await this.categoryModel.find({userID:{$in:[userID]}});
+
+        res.status(200).json(new ResponseClass(200,"Success",categories))
+    }
+
+    async PostCategory(res:Response, body:CategoryDTO){
 
     }
 
-    PostCategory(res:Response, body:CategoryDTO){
+    async PutCategory(res:Response,params:Params,body:CategoryDTO){
 
     }
 
-    PutCategory(res:Response,params:Params,body:CategoryDTO){
-
-    }
-
-    DeleteCategory(res:Response,params:Params){
+    async DeleteCategory(res:Response,params:Params){
 
     }
 }
