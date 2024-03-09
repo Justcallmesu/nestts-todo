@@ -27,6 +27,5 @@ export class Todo{
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);
 
-TodoSchema.index({userID:1})
-
+TodoSchema.index({categoriesID:1});
 
