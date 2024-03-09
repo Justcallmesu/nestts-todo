@@ -1,6 +1,7 @@
 export interface Params{
     id?:string;
     categoriesID?:string;
+    name:string;
 }
 
 export interface JWTverify{
