@@ -70,14 +70,15 @@ export class AuthService{
         const {UserId} = await verify(cookies?.AccessToken,process.env.JWT_SECRET_ACCESS as string) as JWTverify;
 
         let query;
-        
-        query = {UserId}
+
+        query = {_id:UserId}
         if(name) query = {username:{$eq:name}}
+
 
         const document:ProjectionFields<Document<Users>>|null = await this.AuthModel.findOne(query).select("-password -__v");
 
         if(!document) throw new ErrorException("Not Found",404,"Users Not Found")
-        if(UserId === document._id.toString()) throw new ErrorException("Bad Request",400,"Bad Request");
+        if(name && UserId === document._id.toString() ) throw new ErrorException("Bad Request",400,"Bad Request");
 
         const data = document.toObject();
 
