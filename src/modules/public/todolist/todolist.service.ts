@@ -23,7 +23,7 @@ export class todolistservice{
 
     async PostTodo(@Res() res:Response,@Body() body:PostTodoDTO){
         const {userID} = res.locals;
-        console.log(body);
+
         const data = await this.todo.create({userID,...body});
         res.json(new ResponseClass(201,"Data Posted",data));
     }
