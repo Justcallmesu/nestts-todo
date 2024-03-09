@@ -3,8 +3,8 @@ import {InjectModel} from "@nestjs/mongoose";
 import { Request, Response } from "express";
 
 // Auth Schema
-import {UserSchema, Users} from "../../schemas/auth.schema"
-import { Document, Model, MongooseError, ProjectionFields } from "mongoose";
+import {Users} from "../../schemas/auth.schema"
+import { Document, Model, ProjectionFields } from "mongoose";
 
 // Error
 import {ErrorException} from "../../error/RequestException"
@@ -18,7 +18,7 @@ import {RegisterDTO,LoginDTO} from "./auth.dto"
 // Functions
 import { JWTConstruct } from "src/modules/functions/JWTConstructor";
 import { verify } from "jsonwebtoken";
-import { JWTverify } from "src/modules/Interface/params.interface";
+import { JWTverify, Params } from "src/modules/Interface/params.interface";
 
 @Injectable()
 export class AuthService{
@@ -62,16 +62,25 @@ export class AuthService{
         res.cookie("AccessToken","").end();
     }
 
-    async GetUserInfo(req:Request,res:Response){
+    async GetUserInfo(req:Request,res:Response,params:Params){
         const {cookies} = req;
+        const {name=""} = params
 
-        const verified = await verify(cookies?.AccessToken,process.env.JWT_SECRET_ACCESS as string) as JWTverify;
 
-        const document:ProjectionFields<Document<Users>>|null = await this.AuthModel.findById(verified.UserId).select("-password -_id -__v");
+        const {UserId} = await verify(cookies?.AccessToken,process.env.JWT_SECRET_ACCESS as string) as JWTverify;
+
+        let query;
+        
+        query = {UserId}
+        if(name) query = {username:{$eq:name}}
+
+        const document:ProjectionFields<Document<Users>>|null = await this.AuthModel.findOne(query).select("-password -__v");
+
+        if(!document) throw new ErrorException("Not Found",404,"Users Not Found")
+        if(UserId === document._id.toString()) throw new ErrorException("Bad Request",400,"Bad Request");
 
         const data = document.toObject();
 
         res.status(200).json(new ResponseClass(200,"Data Success",data));
-
     }
 }
