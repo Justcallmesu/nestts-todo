@@ -12,6 +12,9 @@ export class Todo{
     @Prop({required:true, maxlength:[50,"Character exceeding the limit"]})
     title:string
 
+    @Prop({required:true})
+    description:string;
+
     @Prop({required:true,type:mongoose.Schema.Types.ObjectId,ref:"Users"})
     userID:Users
 

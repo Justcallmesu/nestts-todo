@@ -23,7 +23,7 @@ export class todolistservice{
 
     async PostTodo(@Res() res:Response,@Body() body:PostTodoDTO,@Param() params:Params){
         const {userID} = res.locals;
-
+        console.log(body);
         const isExist = await this.category.findOne({_id:params.categoriesID})
 
         if(!isExist){
