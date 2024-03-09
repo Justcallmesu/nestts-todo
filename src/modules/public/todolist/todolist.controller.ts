@@ -13,23 +13,23 @@ import { UpdateTodoDTo,PostTodoDTO } from "./todolist.dto";
 export class TodoController{
     constructor(private todo:todolistservice){}
 
-    @Get("/")
-    getTodo(@Res() res:Response):void{
-        this.todo.GetTodo(res);
+    @Get("/:categoriesID")
+    async getTodo(@Res() res:Response, @Param() params:Params){
+        await this.todo.GetTodo(res,params);
     }
 
-    @Post("/")
-    PostTodo(@Res() res:Response,@Body() body:PostTodoDTO){
-        this.todo.PostTodo(res,body);
+    @Post("/:categoriesID")
+    async PostTodo(@Res() res:Response,@Body() body:PostTodoDTO, @Param() params:Params){
+        await this.todo.PostTodo(res,body,params);
     }
 
-    @Put("/:id")
-    UpdateTodo(@Res() res:Response,@Body() body:UpdateTodoDTo,@Param() params:Params):void{
-        this.todo.UpdateTodo(res,body,params);
+    @Put("/:categoriesID/:id")
+    async UpdateTodo(@Res() res:Response,@Body() body:UpdateTodoDTo,@Param() params:Params){
+        await this.todo.UpdateTodo(res,body,params);
     }
 
-    @Delete("/:id")
-    DeleteTodo(@Res() res:Response,@Param() params:Params):void{
-        this.todo.DeleteTodo(res,params);
+    @Delete("/:categoriesID/:id")
+    async DeleteTodo(@Res() res:Response,@Param() params:Params){
+        await this.todo.DeleteTodo(res,params);
     }
 }
