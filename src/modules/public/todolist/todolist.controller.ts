@@ -7,7 +7,7 @@ import {Params} from "../../Interface/params.interface"
 import { todolistservice } from "./todolist.service";
 
 // DTO
-import { UpdateTodoDTo,PostTodoDTO } from "./todolist.dto";
+import { UpdateTodoDTo,PostTodoDTO, QueryDTO } from "./todolist.dto";
 
 // Validation Pipe
 
@@ -16,14 +16,14 @@ import { UpdateTodoDTo,PostTodoDTO } from "./todolist.dto";
 export class TodoController{
     constructor(private todo:todolistservice){}
 
-    @Get("/:categoriesID?")
+    @Get("/:id?")
     async getTodo(@Res() res:Response, @Param() params:Params,@Query() query:any){
         await this.todo.GetTodo(res,params,query);
     }
 
-    @Post("/:categoriesID?")
-    async PostTodo(@Res() res:Response,@Body(new ValidationPipe()) body:PostTodoDTO, @Param() params:Params){
-        await this.todo.PostTodo(res,body,params);
+    @Post()
+    async PostTodo(@Res() res:Response,@Body(new ValidationPipe()) body:PostTodoDTO, @Param() params:Params,@Query() query:QueryDTO){
+        await this.todo.PostTodo(res,body,params,query);
     }
 
     @Put("/:id")
