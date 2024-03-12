@@ -21,7 +21,7 @@ export class Todo{
     @Prop({default:false})
     isCompleted:Boolean
 
-    @Prop({required:true,type:mongoose.Schema.Types.ObjectId})
+    @Prop({type:mongoose.Schema.Types.ObjectId})
     categoriesID:Categories
 };
 
