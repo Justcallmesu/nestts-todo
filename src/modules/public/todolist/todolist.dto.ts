@@ -5,22 +5,16 @@ export class PostTodoDTO{
     @IsString()
     @MaxLength(50)
     title: string;
-
-    @IsNotEmpty({message:"Please Attach Description"})
-    @IsString()
-    description:string
 }
 
 export class UpdateTodoDTo{
-    @IsNotEmpty()
-    @IsString()
-    @MaxLength(50)
-    title: string;
+    title?: string;
 
-    @IsNotEmpty()
-    @IsString()
-    description:string
+    description?:string
 
-    @IsBoolean()
-    isCompleted:boolean;
+    isCompleted?:boolean;
+}
+
+export class QueryDTO{
+    isCompleted:string;
 }
