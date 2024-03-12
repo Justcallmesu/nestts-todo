@@ -60,7 +60,7 @@ export class todolistservice{
         
         mongoQuery = {description,isCompleted,title};
         
-        if(!categoriesID) mongoQuery = {$unset:{categoriesID:""},...mongoQuery};
+        if(categoriesID === "none") mongoQuery = {$unset:{categoriesID:""},...mongoQuery};
         else mongoQuery = {categoriesID,...mongoQuery};
 
         const data = await this.todo.findOneAndUpdate({_id:id},mongoQuery);
