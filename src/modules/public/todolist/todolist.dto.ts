@@ -13,8 +13,11 @@ export class UpdateTodoDTo{
     description?:string
 
     isCompleted?:boolean;
+
+    categoriesID:string;
 }
 
 export class QueryDTO{
-    isCompleted:string;
+    isCompleted?:string;
+    categoriesID?:string;
 }

@@ -10,9 +10,9 @@ import { CategoryService } from "./category.service"
 @Controller("category")
 export class CategoryController{
     constructor(private category:CategoryService){}
-    @Get()
-    async GetCategory(@Res() res:Response){
-        await this.category.GetCategory(res);
+    @Get("/:id?")
+    async GetCategory(@Res() res:Response,@Param() params:Params){
+        await this.category.GetCategory(res,params);
     }
 
     @Post()

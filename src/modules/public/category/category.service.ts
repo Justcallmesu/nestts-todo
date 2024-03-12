@@ -22,10 +22,16 @@ export class CategoryService{
         ){}
 
 
-    async GetCategory(res:Response){
+    async GetCategory(res:Response,params:Params){
         const {userID} = res.locals;
+        const {id} = params;
+        
+        let query;
+        
+        query = {userID:{$in:[userID]}};
+        if(id) query={_id:id,...query}
 
-        const categories = await this.categoryModel.find({userID:{$in:[userID]}});
+        const categories = await this.categoryModel.find(query);
 
         res.status(200).json(new ResponseClass(200,"Success",categories))
     }
