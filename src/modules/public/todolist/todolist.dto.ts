@@ -1,18 +1,23 @@
 import {IsString,IsNotEmpty, IsDate, MaxLength, Max, IsBoolean} from "class-validator"
 
 export class PostTodoDTO{
-    @IsNotEmpty()
+    @IsNotEmpty({message:"Please Attach Title"})
     @IsString()
     @MaxLength(50)
     title: string;
 }
 
 export class UpdateTodoDTo{
-    @IsNotEmpty()
-    @IsString()
-    @MaxLength(50)
-    title: string;
+    title?: string;
 
-    @IsBoolean()
-    isCompleted:boolean;
+    description?:string
+
+    isCompleted?:boolean;
+
+    categoriesID:string;
+}
+
+export class QueryDTO{
+    isCompleted?:string;
+    categoriesID?:string;
 }
