@@ -1,8 +1,9 @@
-import {Controller,Res, Post,Body, Get, Req} from "@nestjs/common"
+import {Controller,Res, Post,Body, Get, Req, Param} from "@nestjs/common"
 import {Request, Response} from "express"
 
 // Service
 import {AuthService} from "./auth.service"
+import { Params } from "src/modules/Interface/params.interface"
 
 @Controller("auth")
 export class AuthController{
@@ -23,9 +24,9 @@ export class AuthController{
         await this.auth.logout(res)
     }
 
-    @Get("/userinfo")
-    async GetUserInfo(@Req() req:Request,@Res() res:Response){
-        await this.auth.GetUserInfo(req,res)
+    @Get("/userinfo/:name?")
+    async GetUserInfo(@Req() req:Request,@Param() params:Params,@Res() res:Response){
+        await this.auth.GetUserInfo(req,res,params)
     }
 
 }

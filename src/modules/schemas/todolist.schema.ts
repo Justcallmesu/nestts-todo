@@ -21,12 +21,11 @@ export class Todo{
     @Prop({default:false})
     isCompleted:Boolean
 
-    @Prop({required:true,type:mongoose.Schema.Types.ObjectId})
+    @Prop({type:mongoose.Schema.Types.ObjectId})
     categoriesID:Categories
 };
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);
 
-TodoSchema.index({userID:1})
-
+TodoSchema.index({categoriesID:1});
 
